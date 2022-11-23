@@ -3,12 +3,10 @@
     x:Class="RickAndMorty.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:RickAndMorty"
-    Shell.FlyoutBehavior="Disabled">
+    xmlns:pages="clr-namespace:RickAndMorty.Views"
+    FlyoutHeaderBehavior="CollapseOnScroll">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <ShellContent Title="Home" ContentTemplate="{DataTemplate pages:MainPage}" Route="MainPage" />
+    <ShellContent Title="Characters" ContentTemplate="{DataTemplate pages:CharacterPage}" Route="CharacterPage" />
 
 </Shell>

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using RickAndMorty.Extentions;
 
 namespace RickAndMorty
 {
@@ -13,10 +14,12 @@ namespace RickAndMorty
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-                });
+                })
+                .AddConfiguration();
+
 
 #if DEBUG
-		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
             return builder.Build();

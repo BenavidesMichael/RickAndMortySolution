@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RickAndMorty.Views.CharacterPage"
+             xmlns:vm ="clr-namespace:RickAndMorty.ViewModels"
+             Title="{Binding Title}">
+    <Grid ColumnSpacing="5"
+          RowDefinitions="*, Auto"
+          RowSpacing="0">
+
+        <CollectionView BackgroundColor="Transparent"
+                        ItemsSource="{Binding Characters}"
+                        SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Padding="10">
+                        <Frame HeightRequest="125" Padding="0">
+                            <Grid ColumnDefinitions="125, *">
+                                <Image Source="{Binding Image}"
+                                       Grid.Column="0"
+                                       Aspect="AspectFill"
+                                       WidthRequest="125"
+                                       HeightRequest="125"/>
+
+                                <VerticalStackLayout Grid.Column="1"
+                                                     Padding="10"
+                                                     VerticalOptions="Center">
+                                    <Label Text="{Binding Name}"/>
+                                    <Label Text="{Binding Status}"/>
+                                    <Label Text="{Binding Species}"/>
+                                    <Label Text="{Binding Location.Name}"/>
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Frame>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <ActivityIndicator IsVisible="{Binding IsBusy}"
+                           IsRunning="{Binding IsBusy}"
+                           HorizontalOptions="FillAndExpand"
+                           VerticalOptions="CenterAndExpand"/>
+    </Grid>
+</ContentPage>

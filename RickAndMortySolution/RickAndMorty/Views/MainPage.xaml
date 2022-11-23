@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RickAndMorty.Views.MainPage">
+    
+    <ScrollView VerticalScrollBarVisibility="Never" HorizontalScrollBarVisibility="Never">
+        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" Padding="20,0">
+            <!-- Here add the code that is being explained in all the blocks -->
+            <!--Timeline -->
+            <Frame Grid.Row="0" 
+                   BorderColor="White" 
+                   VerticalOptions="Start" 
+                   HeightRequest="160" 
+                   HasShadow="False" 
+                   CornerRadius="20" 
+                   Margin="0,45,0,20" 
+                   Padding="0" 
+                   IsClippedToBounds="True">
+                <Image Source="timeline" Aspect="AspectFill"/>
+            </Frame>
+            <!-- Image Profile-->
+            <Frame Grid.Row="1" 
+                   Margin="0,-90,0,0" 
+                   BorderColor="White" 
+                   HorizontalOptions="Center" 
+                   WidthRequest="110" 
+                   HasShadow="False"
+                   CornerRadius="55"
+                   Padding="0"
+                   IsClippedToBounds="True">
+                <Image Source="profile" 
+                       Aspect="AspectFill"/>
+            </Frame>
+            <!-- Profile name -->
+            <Label Grid.Row="2" 
+                   Text="Benavides Michael" 
+                   FontAttributes="Bold" 
+                   TextColor="#383b67" 
+                   HorizontalTextAlignment="Center" 
+                   Margin="0,20,0,0" 
+                   FontSize="22"/>
+            <!-- Profile Data -->
+            <Grid Grid.Row="3" VerticalOptions="Center" HorizontalOptions="Center" Margin="0,20,0,0">
+                <HorizontalStackLayout>
+                    <Label Text=" Brussels, Belgium" 
+                           FontSize="15" 
+                           TextColor="#9192b7"/>
+                    <Label Text="|" 
+                           FontSize="14" 
+                           FontAttributes="Bold"
+                           TextColor="#9192b7"/>
+                    
+                    <Label Text="32 years" 
+                           FontSize="15" 
+                           TextColor="#9192b7"/>
+                </HorizontalStackLayout>
+            </Grid>
+        </Grid>
+    </ScrollView>
+
+</ContentPage>
