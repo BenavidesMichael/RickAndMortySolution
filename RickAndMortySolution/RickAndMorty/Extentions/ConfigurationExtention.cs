@@ -1,5 +1,4 @@
-﻿using Microsoft.Maui.Hosting;
-using RickAndMorty.Services;
+﻿using RickAndMorty.Services;
 using RickAndMorty.ViewModels;
 using RickAndMorty.Views;
 
@@ -11,7 +10,11 @@ public static class ConfigurationExtention
     {
         builder.Services.AddSingleton<CharacterViewModel>();
         builder.Services.AddSingleton<CharacterPage>();
+
+        // services
         builder.Services.AddTransient<ICharacterService, CharacterService>();
+        builder.Services.AddTransient<IDialogService, DialogService>();
+
         return builder;
     }
 }

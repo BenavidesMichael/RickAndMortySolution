@@ -4,24 +4,38 @@
              x:Class="RickAndMorty.Views.CharacterPage"
              xmlns:vm ="clr-namespace:RickAndMorty.ViewModels"
              Title="{Binding Title}">
+
     <Grid ColumnSpacing="5"
           RowDefinitions="*, Auto"
           RowSpacing="0">
 
+
         <CollectionView BackgroundColor="Transparent"
-                        ItemsSource="{Binding Characters}"
-                        SelectionMode="None">
+                        SelectionMode="Single"
+                        SelectedItem="{Binding characterSelected}"
+                        SelectionChangedCommand="{Binding DetailCharacterCommand}"
+                        ItemsSource="{Binding Characters}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Grid Padding="10">
-                        <Frame HeightRequest="125" Padding="0">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup Name="CommonStates">
+                                <VisualState Name="Selected">
+                                    <VisualState.Setters>
+                                        <Setter Property="BackgroundColor" Value="#f0f0f0" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        
+                        <RoundRectangle HeightRequest="125" Stroke="black" StrokeThickness="2" CornerRadius="25"/>
+                        <VerticalStackLayout HeightRequest="125" Padding="0">
                             <Grid ColumnDefinitions=".3*, .6*, .1*">
                                 <Image Source="{Binding Image}"
                                        Grid.Column="0"
                                        Aspect="AspectFill"
                                        WidthRequest="125"
                                        HeightRequest="125"/>
-
                                 <VerticalStackLayout Margin="10,0,0,0" Grid.Column="1"
                                                      Padding="10"
                                                      VerticalOptions="Center">
@@ -44,7 +58,7 @@
                                     </VerticalStackLayout>
                                 </Grid>
                             </Grid>
-                        </Frame>
+                        </VerticalStackLayout>
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
