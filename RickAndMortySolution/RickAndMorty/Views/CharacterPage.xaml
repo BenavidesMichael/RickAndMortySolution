@@ -31,11 +31,11 @@
                                     <Label Text="{Binding Location.Name}"/>
                                 </VerticalStackLayout>
 
-                                <Grid Grid.Column="2">
+                                <Grid Grid.Column="2" Padding="0,0,10,0">
                                     <RoundRectangle CornerRadius="12"
                                                     Fill="#f0f0f0"
-                                                    HeightRequest="25"
-                                                    WidthRequest="25"/>
+                                                    HeightRequest="30"
+                                                    WidthRequest="30"/>
                                     <VerticalStackLayout VerticalOptions="Center">
                                         <Label Text="{Binding Id}"
                                                FontAttributes="Bold"
