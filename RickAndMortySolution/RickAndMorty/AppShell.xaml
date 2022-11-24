@@ -8,5 +8,6 @@
 
     <ShellContent Title="Home" ContentTemplate="{DataTemplate pages:MainPage}" Route="MainPage" />
     <ShellContent Title="Characters" ContentTemplate="{DataTemplate pages:CharacterPage}" Route="CharacterPage" />
+    <ShellContent Title="Details" ContentTemplate="{DataTemplate pages:DetailsCharacterPage}" Route="DetailsCharacterPage" />
 
 </Shell>

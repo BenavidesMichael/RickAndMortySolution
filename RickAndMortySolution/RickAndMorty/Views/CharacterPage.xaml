@@ -15,14 +15,14 @@
                 <DataTemplate>
                     <Grid Padding="10">
                         <Frame HeightRequest="125" Padding="0">
-                            <Grid ColumnDefinitions="125, *">
+                            <Grid ColumnDefinitions=".3*, .6*, .1*">
                                 <Image Source="{Binding Image}"
                                        Grid.Column="0"
                                        Aspect="AspectFill"
                                        WidthRequest="125"
                                        HeightRequest="125"/>
 
-                                <VerticalStackLayout Grid.Column="1"
+                                <VerticalStackLayout Margin="10,0,0,0" Grid.Column="1"
                                                      Padding="10"
                                                      VerticalOptions="Center">
                                     <Label Text="{Binding Name}"/>
@@ -30,6 +30,19 @@
                                     <Label Text="{Binding Species}"/>
                                     <Label Text="{Binding Location.Name}"/>
                                 </VerticalStackLayout>
+
+                                <Grid Grid.Column="2">
+                                    <RoundRectangle CornerRadius="12"
+                                                    Fill="#f0f0f0"
+                                                    HeightRequest="25"
+                                                    WidthRequest="25"/>
+                                    <VerticalStackLayout VerticalOptions="Center">
+                                        <Label Text="{Binding Id}"
+                                               FontAttributes="Bold"
+                                               HorizontalTextAlignment="Center"
+                                               FontSize="Medium"/>
+                                    </VerticalStackLayout>
+                                </Grid>
                             </Grid>
                         </Frame>
                     </Grid>
