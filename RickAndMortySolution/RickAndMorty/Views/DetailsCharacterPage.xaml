@@ -17,10 +17,20 @@
 
             <CollectionView BackgroundColor="Transparent"
                         SelectionMode="Single"
-                        ItemsSource="{Binding Character.Episode}">
+                        ItemsSource="{Binding Character.Episodes}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Label Text="{Binding .}"/>
+                    <Grid Padding="10">
+                        <Frame HeightRequest="125" Padding="0">
+                                <VerticalStackLayout Margin="10,0,0,0" 
+                                                     Padding="10"
+                                                     VerticalOptions="Center">
+                                    <Label Text="{Binding Code}"/>
+                                    <Label Text="{Binding Name}"/>
+                                    <Label Text="{Binding AirDate, StringFormat='{0:dd MMMM, yyyy}'}"/>
+                                </VerticalStackLayout>
+                        </Frame>
+                    </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>

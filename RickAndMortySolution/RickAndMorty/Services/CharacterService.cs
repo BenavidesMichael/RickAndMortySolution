@@ -1,5 +1,7 @@
 ﻿using RickAndMorty.Models;
+using System.Linq;
 using System.Net.Http.Json;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace RickAndMorty.Services;
 
@@ -26,16 +28,42 @@ public class CharacterService : ICharacterService
         return default;
     }
 
-    public async Task<Character> GetCharacterById(int Id)
+    public async Task<CharacterDetail> GetCharacterById(int Id)
     {
-        string url = $"{_BaseUrl}/character/{Id}";
-        var response = await _httpClient.GetAsync(url);
+        Character character = new();
+        string episodeNumber = string.Empty;
 
-        if (response.IsSuccessStatusCode)
+        using (var httpClient = new HttpClient())
         {
-            return await response.Content.ReadFromJsonAsync<Character>();
+            string urlCharacter = $"{_BaseUrl}/character/{Id}";
+            var response = await _httpClient.GetAsync(urlCharacter);
+
+            if (response.IsSuccessStatusCode)
+                character = await response.Content.ReadFromJsonAsync<Character>();
+
+            episodeNumber = string.Join(",", character?.Episode.Select(ep => ep.Split("/").Last()));
         }
 
-        return default;
+        IEnumerable<Episode> episodes = Enumerable.Empty<Episode>();
+        using (var httpClient = new HttpClient())
+        {
+            if (episodeNumber is not null)
+            {
+                string urlEpisode = $"{_BaseUrl}/episode/{episodeNumber}";
+                var episodesResponse = await _httpClient.GetAsync(urlEpisode);
+
+                if (episodesResponse.IsSuccessStatusCode)
+                    episodes = await episodesResponse.Content.ReadFromJsonAsync<IEnumerable<Episode>>();
+            }
+        }
+
+        var characterDetails = new CharacterDetail()
+        {
+            Name = character.Name,
+            Image = character.Image,
+            Episodes = episodes
+        };
+
+        return characterDetails;
     }
 }

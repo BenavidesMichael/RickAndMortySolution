@@ -7,7 +7,7 @@ namespace RickAndMorty.ViewModels
     public partial class DetailCharacterViewModel : BaseViewModel
     {
         [ObservableProperty]
-        Character character;
+        CharacterDetail character;
 
         public DetailCharacterViewModel()
         {
