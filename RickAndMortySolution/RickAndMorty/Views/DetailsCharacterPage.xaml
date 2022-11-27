@@ -2,37 +2,47 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RickAndMorty.Views.DetailsCharacterPage"
-              xmlns:vm ="clr-namespace:RickAndMorty.ViewModels"
+             xmlns:vm ="clr-namespace:RickAndMorty.ViewModels"
              Title="{Binding Title}">
-    <VerticalStackLayout>
-        <Label 
-            Text="{Binding Character.Name}"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+
+    <Grid ColumnSpacing="5"
+          RowDefinitions="Auto, auto, .6*"
+          RowSpacing="0">
+        <Label Text="{Binding Character.Name}"
+               FontSize="30"
+               FontAttributes="Bold"
+               VerticalOptions="Center"
+               Grid.Row="0"
+               HorizontalOptions="Center" />
 
         <Image Source="{Binding Character.Image}"
+               Grid.Row="1"
                Aspect="AspectFill"
-               WidthRequest="125"
-               HeightRequest="125"/>
+               WidthRequest="250"
+               HeightRequest="200"/>
 
-            <CollectionView BackgroundColor="Transparent"
+        <CollectionView BackgroundColor="Transparent"
                         SelectionMode="Single"
+                        Grid.Row="2"
                         ItemsSource="{Binding Character.Episodes}">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical" Span="2"/>
+            </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Grid Padding="10">
                         <Frame HeightRequest="125" Padding="0">
-                                <VerticalStackLayout Margin="10,0,0,0" 
+                            <VerticalStackLayout Margin="10,0,0,0" 
                                                      Padding="10"
                                                      VerticalOptions="Center">
-                                    <Label Text="{Binding Code}"/>
-                                    <Label Text="{Binding Name}"/>
-                                    <Label Text="{Binding AirDate, StringFormat='{0:dd MMMM, yyyy}'}"/>
-                                </VerticalStackLayout>
+                                <Label Text="{Binding Code}"/>
+                                <Label Text="{Binding Name}"/>
+                                <Label Text="{Binding AirDate, StringFormat='{0:dd MMMM, yyyy}'}"/>
+                            </VerticalStackLayout>
                         </Frame>
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-    </VerticalStackLayout>
+    </Grid>
 </ContentPage>

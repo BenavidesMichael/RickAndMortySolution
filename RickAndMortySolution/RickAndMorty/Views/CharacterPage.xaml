@@ -9,7 +9,6 @@
           RowDefinitions="*, Auto"
           RowSpacing="0">
 
-
         <CollectionView BackgroundColor="Transparent"
                         SelectionMode="Single"
                         ItemsSource="{Binding Characters}">
