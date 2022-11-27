@@ -25,4 +25,17 @@ public class CharacterService : ICharacterService
 
         return default;
     }
+
+    public async Task<Character> GetCharacterById(int Id)
+    {
+        string url = $"{_BaseUrl}/character/{Id}";
+        var response = await _httpClient.GetAsync(url);
+
+        if (response.IsSuccessStatusCode)
+        {
+            return await response.Content.ReadFromJsonAsync<Character>();
+        }
+
+        return default;
+    }
 }

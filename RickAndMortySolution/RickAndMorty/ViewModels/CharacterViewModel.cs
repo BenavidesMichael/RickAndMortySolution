@@ -1,35 +1,42 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using RickAndMorty.Models;
 using RickAndMorty.Services;
+using RickAndMorty.Views;
 using System.Collections.ObjectModel;
 
 namespace RickAndMorty.ViewModels;
 
 public partial class CharacterViewModel : BaseViewModel
 {
-    ICharacterService _characterService;
     IDialogService _dialogService;
+    ICharacterService _characterService;
     public ObservableCollection<Character> Characters { get; } = new();
-
-    public Character characterSelected { get; set; }
 
     public CharacterViewModel(ICharacterService characterService, IDialogService dialogService)
     {
         Title = "Rick And Morty Character";
-        _dialogService = dialogService; 
+        _dialogService = dialogService;
         _characterService = characterService;
-        GetCharacters().ConfigureAwait(false);
+        GetCharacters();
     }
 
 
     [RelayCommand]
-    async Task DetailCharacter()
+    async Task DetailCharacter(int Id)
     {
-        await _dialogService.ShowAlertAsync(characterSelected.Name, "Name Character", "OK");
+        var character = await _characterService.GetCharacterById(Id);
+        await Shell.Current.GoToAsync($"{nameof(DetailsCharacterPage)}",
+                                        true,
+                                        new Dictionary<string, object>()
+                                        {
+                                            {
+                                                "Character", character
+                                            }
+                                        });
+
     }
 
-    async Task GetCharacters()
+    async void GetCharacters()
     {
         if (IsBusy)
             return;

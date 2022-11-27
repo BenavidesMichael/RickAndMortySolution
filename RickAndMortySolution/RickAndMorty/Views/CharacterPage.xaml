@@ -12,24 +12,15 @@
 
         <CollectionView BackgroundColor="Transparent"
                         SelectionMode="Single"
-                        SelectedItem="{Binding characterSelected}"
-                        SelectionChangedCommand="{Binding DetailCharacterCommand}"
                         ItemsSource="{Binding Characters}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Grid Padding="10">
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup Name="CommonStates">
-                                <VisualState Name="Selected">
-                                    <VisualState.Setters>
-                                        <Setter Property="BackgroundColor" Value="#f0f0f0" />
-                                    </VisualState.Setters>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
-                        
-                        <RoundRectangle HeightRequest="125" Stroke="black" StrokeThickness="2" CornerRadius="25"/>
-                        <VerticalStackLayout HeightRequest="125" Padding="0">
+                        <Frame HeightRequest="125" Padding="0">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer CommandParameter="{Binding Id}"
+                                                      Command="{Binding Source= {RelativeSource AncestorType={x:Type vm:CharacterViewModel}}, Path= DetailCharacterCommand}"/>
+                            </Frame.GestureRecognizers>
                             <Grid ColumnDefinitions=".3*, .6*, .1*">
                                 <Image Source="{Binding Image}"
                                        Grid.Column="0"
@@ -58,7 +49,7 @@
                                     </VerticalStackLayout>
                                 </Grid>
                             </Grid>
-                        </VerticalStackLayout>
+                        </Frame>
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>

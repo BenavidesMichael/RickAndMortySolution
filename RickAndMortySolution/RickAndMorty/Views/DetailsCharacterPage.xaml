@@ -2,11 +2,27 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RickAndMorty.Views.DetailsCharacterPage"
-             Title="DetailsCharacterPage">
+              xmlns:vm ="clr-namespace:RickAndMorty.ViewModels"
+             Title="{Binding Title}">
     <VerticalStackLayout>
         <Label 
-            Text="Welcome to .NET MAUI!"
+            Text="{Binding Character.Name}"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
+
+        <Image Source="{Binding Character.Image}"
+               Aspect="AspectFill"
+               WidthRequest="125"
+               HeightRequest="125"/>
+
+            <CollectionView BackgroundColor="Transparent"
+                        SelectionMode="Single"
+                        ItemsSource="{Binding Character.Episode}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Label Text="{Binding .}"/>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
     </VerticalStackLayout>
 </ContentPage>
