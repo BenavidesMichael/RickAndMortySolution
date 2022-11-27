@@ -1,4 +1,5 @@
-﻿using RickAndMorty.Models;
+﻿using Microsoft.Maui.Animations;
+using RickAndMorty.Models;
 using System.Linq;
 using System.Net.Http.Json;
 using static System.Net.Mime.MediaTypeNames;
@@ -32,6 +33,7 @@ public class CharacterService : ICharacterService
     {
         Character character = new();
         string episodeNumber = string.Empty;
+        bool nbreEp = false;
 
         using (var httpClient = new HttpClient())
         {
@@ -41,6 +43,7 @@ public class CharacterService : ICharacterService
             if (response.IsSuccessStatusCode)
                 character = await response.Content.ReadFromJsonAsync<Character>();
 
+            nbreEp= character?.Episode.Count > 1;
             episodeNumber = string.Join(",", character?.Episode.Select(ep => ep.Split("/").Last()));
         }
 
@@ -53,7 +56,10 @@ public class CharacterService : ICharacterService
                 var episodesResponse = await _httpClient.GetAsync(urlEpisode);
 
                 if (episodesResponse.IsSuccessStatusCode)
-                    episodes = await episodesResponse.Content.ReadFromJsonAsync<IEnumerable<Episode>>();
+                {
+                    episodes = nbreEp ? await episodesResponse.Content.ReadFromJsonAsync<IEnumerable<Episode>>()
+                                      : episodes = episodes.Append(await episodesResponse.Content.ReadFromJsonAsync<Episode>());
+                }
             }
         }
 
