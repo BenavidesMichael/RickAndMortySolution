@@ -22,7 +22,7 @@
                HeightRequest="200"/>
 
         <CollectionView BackgroundColor="Transparent"
-                        SelectionMode="Single"
+                        SelectionMode="None"
                         Grid.Row="2"
                         ItemsSource="{Binding Character.Episodes}">
             <CollectionView.ItemsLayout>

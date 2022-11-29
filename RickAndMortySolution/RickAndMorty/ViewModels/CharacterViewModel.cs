@@ -24,15 +24,26 @@ public partial class CharacterViewModel : BaseViewModel
     [RelayCommand]
     async Task DetailCharacter(int Id)
     {
-        var character = await _characterService.GetCharacterById(Id);
-        await Shell.Current.GoToAsync($"{nameof(DetailsCharacterPage)}",
-                                        true,
-                                        new Dictionary<string, object>()
-                                        {
-                                            {
-                                                "Character", character
-                                            }
-                                        });
+        if (IsBusy)
+            return;
+
+        try
+        {
+            IsBusy = true;
+            var character = await _characterService.GetCharacterById(Id);
+            await Shell.Current.GoToAsync($"{nameof(DetailsCharacterPage)}",
+                                            true,
+                                            new Dictionary<string, object>() { { "Character", character } });
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine(ex);
+            await Shell.Current.DisplayAlert("Error", $"Unable to get characters : {ex.Message}", "OK");
+        }
+        finally 
+        { 
+            IsBusy = false; 
+        }
 
     }
 
@@ -48,8 +59,6 @@ public partial class CharacterViewModel : BaseViewModel
 
             foreach (var item in result.Results)
                 Characters.Add(item);
-
-            IsBusy = false;
         }
         catch (Exception ex)
         {
