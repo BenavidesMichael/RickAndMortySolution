@@ -11,6 +11,8 @@
 
         <CollectionView BackgroundColor="Transparent"
                         SelectionMode="None"
+                        RemainingItemsThreshold="0"
+                        RemainingItemsThresholdReachedCommand="{Binding GetNextCharactersCommand}"
                         ItemsSource="{Binding Characters}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>

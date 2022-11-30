@@ -8,9 +8,11 @@ namespace RickAndMorty.ViewModels;
 
 public partial class CharacterViewModel : BaseViewModel
 {
+    string _nextCharactersUri;
     IDialogService _dialogService;
     ICharacterService _characterService;
-    public ObservableCollection<Character> Characters { get; } = new();
+    public ObservableCollection<Character> Characters { get; set; } = new();
+
 
     public CharacterViewModel(ICharacterService characterService, IDialogService dialogService)
     {
@@ -18,6 +20,63 @@ public partial class CharacterViewModel : BaseViewModel
         _dialogService = dialogService;
         _characterService = characterService;
         GetCharacters();
+    }
+
+
+    async void GetCharacters()
+    {
+        if (IsBusy)
+            return;
+
+        try
+        {
+            IsBusy = true;
+            var result = await _characterService.GetCharacters();
+            _nextCharactersUri = result.Info.Next;
+
+            foreach (var item in result.Results)
+                Characters.Add(item);
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine(ex);
+            await Shell.Current.DisplayAlert("Error", $"Unable to get characters : {ex.Message}", "OK");
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+
+    }
+
+
+    [RelayCommand]
+    async void GetNextCharacters()
+    {
+        if (IsBusy)
+            return;
+
+        try
+        {
+            if (!string.IsNullOrEmpty(_nextCharactersUri))
+            {
+                IsBusy = true;
+                var result = await _characterService.GetNextCharacters(_nextCharactersUri);
+                _nextCharactersUri = result?.Info.Next;
+
+                foreach (var item in result.Results)
+                    Characters.Add(item);
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine(ex);
+            await Shell.Current.DisplayAlert("Error", $"Unable to get characters : {ex.Message}", "OK");
+        }
+        finally
+        {
+            IsBusy = false;
+        }
     }
 
 
@@ -34,31 +93,6 @@ public partial class CharacterViewModel : BaseViewModel
             await Shell.Current.GoToAsync($"{nameof(DetailsCharacterPage)}",
                                             true,
                                             new Dictionary<string, object>() { { "Character", character } });
-        }
-        catch (Exception ex)
-        {
-            System.Diagnostics.Debug.WriteLine(ex);
-            await Shell.Current.DisplayAlert("Error", $"Unable to get characters : {ex.Message}", "OK");
-        }
-        finally 
-        { 
-            IsBusy = false; 
-        }
-
-    }
-
-    async void GetCharacters()
-    {
-        if (IsBusy)
-            return;
-
-        try
-        {
-            IsBusy = true;
-            var result = await _characterService.GetCharacters();
-
-            foreach (var item in result.Results)
-                Characters.Add(item);
         }
         catch (Exception ex)
         {

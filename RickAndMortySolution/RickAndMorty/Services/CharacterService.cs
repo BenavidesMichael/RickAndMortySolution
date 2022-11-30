@@ -1,33 +1,44 @@
-﻿using Microsoft.Maui.Animations;
-using RickAndMorty.Models;
-using System.Linq;
+﻿using RickAndMorty.Models;
 using System.Net.Http.Json;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace RickAndMorty.Services;
 
 public class CharacterService : ICharacterService
 {
-    string _BaseUrl = "https://rickandmortyapi.com/api";
-    HttpClient _httpClient;
+    string _characterUrl = $"https://rickandmortyapi.com/api/character";
+    string _episodeUrl = $"https://rickandmortyapi.com/api/episode";
 
-    public CharacterService()
-    {
-        _httpClient = new HttpClient();
-    }
 
     public async Task<ApiResponse> GetCharacters()
     {
-        string url = $"{_BaseUrl}/character";
-        var response = await _httpClient.GetAsync(url);
-
-        if (response.IsSuccessStatusCode)
+        using (var httpClient = new HttpClient())
         {
-            return await response.Content.ReadFromJsonAsync<ApiResponse>();
+            var response = await httpClient.GetAsync(_characterUrl);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<ApiResponse>();
+            }
+        }
+        return null;
+    }
+
+
+    public async Task<ApiResponse> GetNextCharacters(string url)
+    {
+        using (var httpClient = new HttpClient())
+        {
+            var response = await httpClient.GetAsync(url);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<ApiResponse>();
+            }
         }
 
-        return default;
+        return null;
     }
+
 
     public async Task<CharacterDetail> GetCharacterById(int Id)
     {
@@ -37,13 +48,13 @@ public class CharacterService : ICharacterService
 
         using (var httpClient = new HttpClient())
         {
-            string urlCharacter = $"{_BaseUrl}/character/{Id}";
-            var response = await _httpClient.GetAsync(urlCharacter);
+            string urlCharacter = $"{_characterUrl}/{Id}";
+            var response = await httpClient.GetAsync(urlCharacter);
 
             if (response.IsSuccessStatusCode)
                 character = await response.Content.ReadFromJsonAsync<Character>();
 
-            nbreEp= character?.Episode.Count > 1;
+            nbreEp = character?.Episode.Count > 1;
             episodeNumber = string.Join(",", character?.Episode.Select(ep => ep.Split("/").Last()));
         }
 
@@ -52,8 +63,8 @@ public class CharacterService : ICharacterService
         {
             if (episodeNumber is not null)
             {
-                string urlEpisode = $"{_BaseUrl}/episode/{episodeNumber}";
-                var episodesResponse = await _httpClient.GetAsync(urlEpisode);
+                string urlEpisode = $"{_episodeUrl}/{episodeNumber}";
+                var episodesResponse = await httpClient.GetAsync(urlEpisode);
 
                 if (episodesResponse.IsSuccessStatusCode)
                 {
